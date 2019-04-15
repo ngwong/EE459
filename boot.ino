@@ -45,6 +45,7 @@ void setup() {
   bool foundhost = false;
   bool mintwo = false;
   int rand_sleep = 0;
+  String tempSSID = "";
   
   for(int i=0; i<5; i++)
   {
@@ -75,7 +76,8 @@ void setup() {
 		Serial.println("Existing host not found. Checking for possible hosts...");
 		yourSSID = firstNet(begin_s);
 		delay(500);
-		if(yourSSID.equals(""))
+		tempSSID = firstNet(host_s);
+		if(yourSSID.equals("")&&tempSSID.equals(""))
 		{
 			Serial.println("No possible host not found. Hosting new game...");
 			mySSID = host_s + gameID;
