@@ -59,30 +59,33 @@ void setup() {
   Serial.println();
   */
   
+  mySSID = begin_s + gameID;  
+  Serial.println("Configuring access point...");
+  Serial.println("" + mySSID + " ap started...");
+  Serial.println();
+  
   while(!foundhost)
   {
-	mySSID = begin_s + gameID;  
-    Serial.println("Configuring access point...");
-    WiFi.softAP(mySSID);
-    Serial.println("" + mySSID + " ap started...");
-    Serial.println();
-	  
+	WiFi.softAP(mySSID);
+		
 	Serial.println("Searching for host...");
     yourSSID = firstNet(host_s);
 	if(yourSSID.equals(""))
 	{
 		Serial.println("Existing host not found. Checking for possible hosts...");
 		yourSSID = firstNet(begin_s);
+		delay(500);
 		if(yourSSID.equals(""))
 		{
+			Serial.println("No possible host not found. Hosting new game...");
 			mySSID = host_s + gameID;
 			foundhost = true;
 		}
 		else
 		{
-			WiFi.softAPdisconnect(true);
-			rand_sleep = random(1,1000);
+			rand_sleep = random(1,2000);
 			Serial.println("Possible host found. Sleeping for " + String(double(rand_sleep)/1000) + " seconds...");
+			WiFi.softAPdisconnect(true);
 			delay(rand_sleep);
 		}
 	}
@@ -111,6 +114,7 @@ void setup() {
 	  	  Serial.print(".");
 	  	  end_time = millis();
 	  }while((end_time-start_time)<60000);
+	  
 	  mySSID = infected_s + gameID;
 	  Serial.println();
   }
