@@ -111,19 +111,20 @@ void setup() {
 	  } while((end_time-start_time)<60000);
 	  
 	  mySSID = infected_s + gameID;
-	  Serial.println();
   }
   
   if(!mySSID.indexOf(ready_s))
   {
 	  do
 	  {
+		  Serial.println("Waiting for host...");
 		  delay(500);
 		  yourSSID = firstNet(host_s+gameID);
 	  } while(!yourSSID.equals(host_s+gameID));
 	  mySSID = healthy_s + gameID;
   }
   
+  Serial.println();
   Serial.println("Configuring access point...");
   WiFi.softAP(mySSID);
   Serial.println("" + mySSID + " ap started...");
