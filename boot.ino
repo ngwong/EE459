@@ -51,14 +51,22 @@ void setup() {
 	gameID += String(random(0,9));
   }
 
+  /*
   mySSID = begin_s + gameID;  
   Serial.println("Configuring access point...");
   WiFi.softAP(mySSID);
   Serial.println("" + mySSID + " ap started...");
   Serial.println();
+  */
   
   while(!foundhost)
   {
+	mySSID = begin_s + gameID;  
+    Serial.println("Configuring access point...");
+    WiFi.softAP(mySSID);
+    Serial.println("" + mySSID + " ap started...");
+    Serial.println();
+	  
 	Serial.println("Searching for host...");
     yourSSID = firstNet(host_s);
 	if(yourSSID.equals(""))
