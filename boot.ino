@@ -68,13 +68,11 @@ void setup() {
 		if(yourSSID.equals(""))
 		{
 			mySSID = host_s + gameID;
-			Serial.println("Configuring access point...");
-			WiFi.softAP(mySSID);
-			Serial.println("" + mySSID + " ap started...");
 			foundhost = true;
 		}
 		else
 		{
+			WiFi.softAPdisconnect(true);
 			rand_sleep = random(1,1000);
 			Serial.println("Possible host found. Sleeping for " + String(double(rand_sleep)/1000) + " seconds...");
 			delay(rand_sleep);
@@ -106,6 +104,7 @@ void setup() {
 	  	  end_time = millis();
 	  }while((end_time-start_time)<60000);
 	  mySSID = infected_s + gameID;
+	  Serial.println();
   }
   
   if(!mySSID.indexOf(ready_s))
