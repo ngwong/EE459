@@ -45,6 +45,7 @@ void setup() {
   bool foundhost = false;
   bool mintwo = false;
   int rand_sleep = 0;
+  int count = 1;
   String tempSSID = "";
   
   for(int i=0; i<5; i++)
@@ -75,7 +76,6 @@ void setup() {
 	{
 		Serial.println("Existing host not found. Checking for possible hosts...");
 		yourSSID = firstNet(begin_s);
-		delay(500);
 		tempSSID = firstNet(host_s);
 		if(yourSSID.equals("")&&tempSSID.equals(""))
 		{
@@ -85,7 +85,8 @@ void setup() {
 		}
 		else
 		{
-			rand_sleep = random(1,2000);
+			rand_sleep = count*random(1,1000);
+			count++;
 			Serial.println("Possible host found. Sleeping for " + String(double(rand_sleep)/1000) + " seconds...");
 			WiFi.softAPdisconnect(true);
 			delay(rand_sleep);
