@@ -4,6 +4,7 @@
 String begin_s = "ESPTAG_BEGIN_";
 String host_s = "ESPTAG_HOST_";
 String ready_s = "ESPTAG_READY_";
+String wait_s = "ESPTAG_WAIT_";
 String healthy_s = "ESPTAG_HEALTHY_";
 String infected_s = "ESPTAG_INFECTED_";
 String end_s = "ESPTAG_END_";
@@ -11,7 +12,7 @@ String end_s = "ESPTAG_END_";
 String mySSID = "";
 String yourSSID = "";
 String gameID = "";
-
+String storeSSID = "";
 
 // Return RSSI or 0 if target SSID not found
 int32_t getRSSI(String target_ssid) {
@@ -110,7 +111,8 @@ void setup() {
 	  	  end_time = millis();
 	  } while((end_time-start_time)<60000);
 	  
-	  mySSID = infected_s + gameID;
+	  storeSSID = mySSID;
+	  mySSID = wait_s + gameID;
   }
   
   if(!mySSID.indexOf(ready_s))
@@ -121,7 +123,8 @@ void setup() {
 		  delay(500);
 		  yourSSID = firstNet(host_s+gameID);
 	  } while(!yourSSID.equals(host_s+gameID));
-	  mySSID = healthy_s + gameID;
+	  storeSSID = mySSID;
+	  mySSID = wait_s + gameID;
   }
   
   Serial.println();
@@ -129,6 +132,33 @@ void setup() {
   WiFi.softAP(mySSID);
   Serial.println("" + mySSID + " ap started...");
   Serial.println();
+	
+  if(!mySSID.indexOf(wait_s))
+  {
+	  do
+	  {
+		  Serial.println("Waiting for everyone...");
+		  delay(100);
+		  yourSSID = firstNet(wait_s+gameID);
+		  tempSSID = firstNet(host_s+gameID);
+	  } while(!yourSSID.equals(wait_s+gameID)&&!tempSSID.equals(""));
+	  
+	  if(storeSSID.equals(host_s+gameID))
+	  {
+		  mySSID = infected_s + gameID;
+	  }
+	  else
+	  {
+		  mySSID = healthy_s + gameID;
+	  }
+  }
+	
+  Serial.println();
+  Serial.println("Configuring access point...");
+  WiFi.softAP(mySSID);
+  Serial.println("" + mySSID + " ap started...");
+  Serial.println();
+
 }
 
 void loop() {
