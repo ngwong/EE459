@@ -18,7 +18,7 @@ int32_t getRSSI(String target_ssid) {
   byte available_networks = WiFi.scanNetworks();
 
   for (int network = 0; network < available_networks; network++) {
-	if (strcmp(WiFi.SSID(network).c_str(), target_ssid.c_str()) == 0) {
+	if ((WiFi.SSID(network)).equals(target_ssid.c_str())) {
 	  return WiFi.RSSI(network);
 	}
   }
@@ -52,14 +52,6 @@ void setup() {
   {
 	gameID += String(random(0,9));
   }
-
-  /*
-  mySSID = begin_s + gameID;  
-  Serial.println("Configuring access point...");
-  WiFi.softAP(mySSID);
-  Serial.println("" + mySSID + " ap started...");
-  Serial.println();
-  */
   
   mySSID = begin_s + gameID;  
   Serial.println("Configuring access point...");
@@ -71,7 +63,7 @@ void setup() {
 	WiFi.softAP(mySSID);
 		
 	Serial.println("Searching for host...");
-    yourSSID = firstNet(host_s);
+   	yourSSID = firstNet(host_s);
 	if(yourSSID.equals(""))
 	{
 		Serial.println("Existing host not found. Checking for possible hosts...");
@@ -116,7 +108,7 @@ void setup() {
 	  	  delay(5000);
 	  	  Serial.print(".");
 	  	  end_time = millis();
-	  }while((end_time-start_time)<60000);
+	  } while((end_time-start_time)<60000);
 	  
 	  mySSID = infected_s + gameID;
 	  Serial.println();
@@ -128,7 +120,7 @@ void setup() {
 	  {
 		  delay(100);
 		  yourSSID = firstNet(host_s+gameID);
-	  }while(!yourSSID.equals(host_s+gameID));
+	  } while(!yourSSID.equals(host_s+gameID));
 	  mySSID = healthy_s + gameID;
   }
   
@@ -136,20 +128,12 @@ void setup() {
   WiFi.softAP(mySSID);
   Serial.println("" + mySSID + " ap started...");
   Serial.println();
-  
-  
-  /*
-  start_time = millis();
-  do
-  {
-	  end_time = millis();
-  }while((end_time-start_time)<600000);
-  */
 }
 
 void loop() {
 	Serial.println("" + mySSID);
-	delay(5000);
+    	delay(5000);
+	
   /*
   unsigned long before = millis();
   int32_t rssi = getRSSI(yourSSID);
