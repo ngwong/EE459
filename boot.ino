@@ -118,7 +118,7 @@ void setup() {
   {
 	  do
 	  {
-		  delay(100);
+		  delay(500);
 		  yourSSID = firstNet(host_s+gameID);
 	  } while(!yourSSID.equals(host_s+gameID));
 	  mySSID = healthy_s + gameID;
