@@ -49,6 +49,17 @@ void setup() {
   int rand_sleep = 0;
   int count = 1;
   String tempSSID = "";
+  int32_t rssi = 0;
+  
+  pinMode(D5, OUTPUT);   
+  pinMode(D6, OUTPUT);
+  pinMode(D7, OUTPUT);
+  pinMode(D8, OUTPUT);
+  
+  digitalWrite(D5, LOW);
+  digitalWrite(D6, LOW);
+  digitalWrite(D7, LOW);
+  digitalWrite(D8, LOW);
   
   for(int i=0; i<5; i++)
   {
@@ -104,14 +115,12 @@ void setup() {
   if(!mySSID.indexOf(host_s))
   {
     start_time = millis();
-    Serial.print("Waiting for players to join");
+    Serial.print("Waiting for players to join... ");
     do
     {
-        delay(5000);
-        Serial.print(".");
         end_time = millis();
     } while((end_time-start_time)<60000);
-    
+    Serial.println("Done waiting!");
     storeSSID = mySSID;
     mySSID = ready_s + gameID;
   }
@@ -124,12 +133,12 @@ void setup() {
     }
     else
     {
+	  Serial.print("Waiting for host... ");
       do
       {
-        Serial.println("Waiting for host...");
-        delay(500);
         yourSSID = firstNet(host_s+gameID);
       } while(!yourSSID.equals(host_s+gameID));
+	  Serial.println("Done waiting!");
       
       storeSSID = mySSID;
       mySSID = wait_s + gameID;
@@ -144,12 +153,13 @@ void setup() {
   
   if(!mySSID.indexOf(wait_s))
   {
+	Serial.print("Waiting for everyone... ");
     do
     {
-      Serial.println("Waiting for everyone...");
       yourSSID = firstNet(wait_s+gameID);
       tempSSID = firstNet(host_s+gameID);
     } while(!yourSSID.equals(wait_s+gameID)&&!tempSSID.equals(""));
+	Serial.println("Done waiting!");
     
     if(storeSSID.equals(host_s+gameID))
     {
@@ -171,29 +181,96 @@ void setup() {
   Serial.println("30 second grace period has begun.");
   do
   {
-      delay(3000);
-      Serial.print(".");
       end_time = millis();
   } while((end_time-start_time)<30000);
   Serial.println();
-  Serial.println("Grace period is now over. Do not get infected!");
+  Serial.println("Grace period is now over.");
   Serial.println();
   
   start_time = millis();
   do
   {
-    delay(100);
+	  if(!mySSID.indexOf(infected_s+gameID))
+	  {
+		  rssi = -1*getRSSI(healthy_s+gameID);
+		  Serial.print("Signal strength: ");
+		  Serial.print(rssi);
+		  Serial.println("dBm");
+		  digitalWrite(D5, HIGH);
+		  if(rssi<30 && rssi>0)
+		  {
+			  digitalWrite(D6, HIGH);
+			  delay(1000);
+			  digitalWrite(D5, LOW);
+			  digitalWrite(D6, LOW);
+		  }
+		  else if(rssi<60 && rssi>0)
+		  {
+			  digitalWrite(D7, HIGH);
+			  delay(1000);
+			  digitalWrite(D5, LOW);
+			  digitalWrite(D7, LOW);
+		  }
+		  else if(rssi>60)
+		  {
+			  digitalWrite(D8, HIGH);
+			  delay(1000);
+			  digitalWrite(D5, LOW);
+			  digitalWrite(D8, LOW);
+		  }
+		  else
+		  {
+			  delay(1000);
+			  digitalWrite(D5, LOW);
+		  }
+	  }
+	  else if(!mySSID.indexOf(healthy_s+gameID))
+	  {
+		  rssi = -1*getRSSI(infected_s+gameID);
+		  Serial.print("Signal strength: ");
+		  Serial.print(rssi);
+		  Serial.println("dBm");
+		  if(rssi<30 && rssi>0)
+		  {
+			  digitalWrite(D6, HIGH);
+			  delay(500);
+			  digitalWrite(D5, HIGH);
+			  delay(500);
+			  digitalWrite(D6, LOW);
+			  delay(500);
+			  digitalWrite(D5, LOW);
+			  
+			  mySSID = infected_s + gameID;
+			  Serial.println();
+			  Serial.println("Configuring access point...");
+			  WiFi.softAP(mySSID);
+			  Serial.println("" + mySSID + " ap started...");
+			  Serial.println();
+		  }
+		  else if(rssi<60 && rssi>0)
+		  {
+			  digitalWrite(D7, HIGH);
+			  delay(1000);
+			  digitalWrite(D7, LOW);
+		  }
+		  else if(rssi>60)
+		  {
+			  digitalWrite(D8, HIGH);
+			  delay(1000);
+			  digitalWrite(D8, LOW);
+		  }
+	  }
       end_time = millis();
   } while((end_time-start_time)<60000);
   Serial.println("The game is over!");
   
   if(!mySSID.indexOf(infected_s))
   {
-    Serial.println("You have succumbed to the infection.");
+    Serial.println("You lost.");
   }
   else
   {
-    Serial.println("You beat the infection!");
+    Serial.println("You won!");
   }
   
   mySSID = end_s + gameID;
@@ -207,17 +284,4 @@ void setup() {
 void loop() {
   Serial.println("" + mySSID);
       delay(5000);
-  
-  /*//RSSICODE
-  unsigned long before = millis();
-  int32_t rssi = getRSSI(yourSSID);
-  unsigned long after = millis();
-  Serial.print("Signal strength: ");
-  Serial.print(rssi);
-  Serial.println("dBm");
-  Serial.print("Took ");
-  Serial.print(after - before);
-  Serial.println("ms");
-  delay(1000);
-  */
 }
