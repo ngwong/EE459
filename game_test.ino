@@ -112,7 +112,7 @@ void setup() {
   Serial.println("" + mySSID + " ap started...");
   Serial.println();
   
-  if(!mySSID.indexOf(host_s))
+  if(!mySSID.indexOf(host_s+gameID))
   {
     start_time = millis();
     Serial.print("Waiting for players to join... ");
@@ -120,15 +120,15 @@ void setup() {
     {
 	delay(100);
         end_time = millis();
-    } while((end_time-start_time)<60000);
+    } while((end_time-start_time)<30000);
     Serial.println("Done waiting!");
     storeSSID = mySSID;
     mySSID = ready_s + gameID;
   }
   
-  if(!mySSID.indexOf(ready_s))
+  if(!mySSID.indexOf(ready_s+gameID))
   {
-    if(!storeSSID.indexOf(host_s))
+    if(!storeSSID.indexOf(host_s+gameID))
     {
        mySSID = wait_s + gameID;
     }
@@ -152,7 +152,7 @@ void setup() {
   Serial.println("" + mySSID + " ap started...");
   Serial.println();
   
-  if(!mySSID.indexOf(wait_s))
+  if(!mySSID.indexOf(wait_s+gameID))
   {
 	Serial.print("Waiting for everyone... ");
     do
@@ -184,7 +184,7 @@ void setup() {
   {
       delay(100);
       end_time = millis();
-  } while((end_time-start_time)<30000);
+  } while((end_time-start_time)<15000);
   Serial.println();
   Serial.println("Grace period is now over.");
   Serial.println();
@@ -202,27 +202,27 @@ void setup() {
 		  if(rssi<30 && rssi>0)
 		  {
 			  digitalWrite(D6, HIGH);
-			  delay(1000);
+			  delay(100);
 			  digitalWrite(D5, LOW);
 			  digitalWrite(D6, LOW);
 		  }
 		  else if(rssi<60 && rssi>0)
 		  {
 			  digitalWrite(D7, HIGH);
-			  delay(1000);
+			  delay(100);
 			  digitalWrite(D5, LOW);
 			  digitalWrite(D7, LOW);
 		  }
 		  else if(rssi>60)
 		  {
 			  digitalWrite(D8, HIGH);
-			  delay(1000);
+			  delay(100);
 			  digitalWrite(D5, LOW);
 			  digitalWrite(D8, LOW);
 		  }
 		  else
 		  {
-			  delay(1000);
+			  delay(100);
 			  digitalWrite(D5, LOW);
 		  }
 	  }
@@ -235,14 +235,13 @@ void setup() {
 		  if(rssi<30 && rssi>0)
 		  {
 			  digitalWrite(D6, HIGH);
-			  delay(500);
 			  digitalWrite(D5, HIGH);
-			  delay(500);
+			  delay(100);
 			  digitalWrite(D6, LOW);
-			  delay(500);
 			  digitalWrite(D5, LOW);
 			  
 			  mySSID = infected_s + gameID;
+			  Serial.println("You have become infected.");
 			  Serial.println();
 			  Serial.println("Configuring access point...");
 			  WiFi.softAP(mySSID);
@@ -252,21 +251,25 @@ void setup() {
 		  else if(rssi<60 && rssi>0)
 		  {
 			  digitalWrite(D7, HIGH);
-			  delay(1000);
+			  delay(100);
 			  digitalWrite(D7, LOW);
 		  }
 		  else if(rssi>60)
 		  {
 			  digitalWrite(D8, HIGH);
-			  delay(1000);
+			  delay(100);
 			  digitalWrite(D8, LOW);
+		  }
+		  else
+		  {
+			  delay(100);
 		  }
 	  }
       end_time = millis();
   } while((end_time-start_time)<60000);
   Serial.println("The game is over!");
   
-  if(!mySSID.indexOf(infected_s))
+  if(!mySSID.indexOf(infected_s+gameID))
   {
     Serial.println("You lost.");
   }
