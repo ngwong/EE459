@@ -179,7 +179,7 @@ void setup() {
   Serial.println();
   
   start_time = millis();
-  Serial.println("30 second grace period has begun.");
+  Serial.println("15 second grace period has begun...");
   do
   {
       delay(100);
