@@ -140,7 +140,7 @@ void setup() {
         yourSSID = firstNet(host_s+gameID);
       } while(!yourSSID.equals(host_s+gameID));
 	  Serial.println("Done waiting!");
-      
+	    
       storeSSID = mySSID;
       mySSID = wait_s + gameID;
     }
