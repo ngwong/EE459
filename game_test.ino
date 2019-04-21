@@ -182,6 +182,7 @@ void setup() {
   Serial.println("30 second grace period has begun.");
   do
   {
+      delay(100);
       end_time = millis();
   } while((end_time-start_time)<30000);
   Serial.println();
