@@ -3,7 +3,8 @@
 //
 //
 //
-
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 #include <ESP8266WiFi.h>
 
 
@@ -11,12 +12,22 @@
 //#include <WiFiClient.h> 
 //#include <ESP8266WebServer.h>
 
+#define OLED_RESET 0  // GPIO0
+Adafruit_SSD1306 OLED(OLED_RESET);
+
 
 void setup() {
   // put your setup code here, to run once:
   delay(1000);
   Serial.begin(115200);
   Serial.println();
+  OLED.begin();
+  OLED.clearDisplay();
+  OLED.setTextWrap(false);
+  OLED.setTextSize(1);
+  OLED.setTextColor(WHITE);
+  OLED.setCursor(0,0);
+  
   //Serial.print("Configuring access point...");
   //WiFi.mode(WIFI_STA);
   //WiFi.disconnect();
@@ -29,6 +40,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+
 
     Serial.println("scan start");
 
@@ -49,14 +61,20 @@ void loop() {
         Serial.print(" (");
         Serial.print(WiFi.RSSI(i));
         Serial.print(")");
-         Serial.println((WiFi.encryptionType(i) == ENC_TYPE_NONE) ? " " : "*");
+        OLED.setCursor(0,0);
+        OLED.println(WiFi.RSSI(i));
+        OLED.display();
+        OLED.clearDisplay();
+        Serial.println((WiFi.encryptionType(i) == ENC_TYPE_NONE) ? " " : "*");
         delay(10);
       }
   }
   Serial.println("");
 
+  OLED.clearDisplay();
+
   // Wait a bit before scanning again
-  delay(5000);
+  //delay(5000);
 
   
 
