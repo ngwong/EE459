@@ -197,9 +197,8 @@ void setup() {
 		  rssi = -1*getRSSI(healthy_s+gameID);
 		  Serial.print("Signal strength: ");
 		  Serial.print(rssi);
-		  Serial.println("dBm");
 		  digitalWrite(D5, HIGH);
-		  if(rssi<30 && rssi>0)
+		  if(rssi<35 && rssi>0)
 		  {
 			  digitalWrite(D6, HIGH);
 			  delay(100);
@@ -231,8 +230,7 @@ void setup() {
 		  rssi = -1*getRSSI(infected_s+gameID);
 		  Serial.print("Signal strength: ");
 		  Serial.print(rssi);
-		  Serial.println("dBm");
-		  if(rssi<30 && rssi>0)
+		  if(rssi<35 && rssi>0)
 		  {
 			  digitalWrite(D6, HIGH);
 			  digitalWrite(D5, HIGH);
