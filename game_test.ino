@@ -118,6 +118,7 @@ void setup() {
     Serial.print("Waiting for players to join... ");
     do
     {
+	delay(100);
         end_time = millis();
     } while((end_time-start_time)<60000);
     Serial.println("Done waiting!");
