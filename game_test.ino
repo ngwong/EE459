@@ -294,6 +294,18 @@ void setup() {
     Serial.println("You won!");
   }
   
+  OLED.clearDisplay();
+
+  //Add stuff into the 'display buffer'
+  OLED.setTextWrap(false);
+  OLED.setTextSize(2);
+  OLED.setTextColor(WHITE);
+  OLED.setCursor(0,0);
+  OLED.println("GAME OVER");
+ 
+  OLED.display(); //output 'display buffer' to screen  
+  OLED.startscrollleft(0x00, 0x0F); //make display scroll
+	
   mySSID = end_s + gameID;
   Serial.println();
   Serial.println("Configuring access point...");
