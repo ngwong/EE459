@@ -35,53 +35,57 @@ int main(void){
 	//int proxy;
 	char infected;
 	char prox1, prox2, prox3;
+	//char flag1, flag2, flag3, flagInf;
 	while(1){
 		infected = (PINC & (1 << PC1));
+		//if(infected) flagInf == 1;
 		prox1 = (PINB & (1 << PB0));
 		prox2 = (PINB & (1 << PB1));
 		prox3 = (PINB & (1 << PB2));
-		if(prox1){//checks for prox3 signal and turns on appropriate led
+		if(prox1){//checks for prox1 signal and turns on appropriate led closest
 			if(infected){
-				PORTD |= 1 << PD0;
 				PORTD &= ~(1 << PD1);
+				PORTD |= 1 << PD0;
+			
 			}
 			else{
-			       	PORTD |= 1 << PD1;
-				PORTD &= ~(1 << PD0);	
+			       	PORTD &= ~(1 << PD0);
+				PORTD |= 1 << PD1;
+				
 			}
 		}
-		else {//if no prox3 turns off led
+		else {//if no prox1 turns off led
 			PORTD &= ~(1 << PD1);
 			PORTD &= ~(1 << PD0);	
 		}
 
 
-		if(prox2){//checks for prox3 signal and turns on appropriate led
+		if(prox2){//checks for prox2 signal and turns on appropriate led middle
 			if(infected){
-			       	PORTD |= 1 << PD2;
-				PORTD &= ~(1 << PD3);
-			}
+			       	PORTD &= ~(1 << PD3);
+				PORTD |= 1 << PD2;
+							}
 			else{
-				PORTD |= 1 << PD3;
 				PORTD &= ~(1 << PD2);
-			}
+				PORTD |= 1 << PD3;
+						}
 		}
-		else{//if no prox3 turns off led
+		else{//if no prox2 turns off led
 			PORTD &= ~(1 << PD3);
 			PORTD &= ~(1 << PD2);
 
 		}
 
 
-		if(prox3){ //checks for prox3 signal and turns on appropriate led
+		if(prox3){ //checks for prox3 signal and turns on appropriate led 
 			if(infected){
-				PORTD |= 1 << PD4;
 				PORTD &= ~(1 << PD5);
-			}
+				PORTD |= 1 << PD4;
+							}
 			else{ 
-				PORTD |= 1 << PD5;
 				PORTD &= ~(1 << PD4);
-			}
+				PORTD |= 1 << PD5;
+						}
 
 		}
 		else{ //if no prox3 turns off led
