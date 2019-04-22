@@ -238,15 +238,15 @@ void setup() {
   {
 	  if(!mySSID.indexOf(infected_s+gameID))
 	  {
-		  if(rssi!=0)
-		  {
-		  	rssi_temp = rssi;
-		  }
 		  rssi = -1*getRSSI(healthy_s+gameID);
 		  if(rssi==0)
 		  {
 			  rssi = rssi_temp;
 			  rssi_temp = 0;
+		  }
+		  else
+		  {
+			  rssi_temp = rssi;
 		  }
 		  Serial.print("Signal strength: ");
 		  Serial.println(rssi);
@@ -276,15 +276,15 @@ void setup() {
 	  }
 	  else if(!mySSID.indexOf(healthy_s+gameID))
 	  {
-		  if(rssi!=0)
-		  {
-		  	rssi_temp = rssi;
-		  }
 		  rssi = -1*getRSSI(infected_s+gameID);
 		  if(rssi==0)
 		  {
 			  rssi = rssi_temp;
 			  rssi_temp = 0;
+		  }
+		  else
+		  {
+			  rssi_temp = rssi;
 		  }
 		  Serial.print("Signal strength: ");
 		  Serial.println(rssi);
