@@ -26,6 +26,7 @@ void findAvg(list<double>& distances)
    }
 }
 
+// simple test
 int main() {
   list<double> distances;
   distances.push_back(0.1);
