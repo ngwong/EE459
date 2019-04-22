@@ -130,6 +130,18 @@ void setup() {
   Serial.println("" + mySSID + " ap started...");
   Serial.println();
   
+  OLED.clearDisplay();
+
+  //Add stuff into the 'display buffer'
+  OLED.setTextWrap(false);
+  OLED.setTextSize(2);
+  OLED.setTextColor(WHITE);
+  OLED.setCursor(0,0);
+  OLED.println("STARTING GAME");
+ 
+  OLED.display(); //output 'display buffer' to screen  
+  OLED.startscrollleft(0x00, 0x0F); //make display scroll
+	
   if(!mySSID.indexOf(host_s+gameID))
   {
     start_time = millis();
@@ -180,14 +192,27 @@ void setup() {
     } while(!yourSSID.equals(wait_s+gameID)&&!tempSSID.equals(""));
 	Serial.println("Done waiting!");
     
+     OLED.clearDisplay();
+
+     //Add stuff into the 'display buffer'
+     OLED.setTextWrap(false);
+     OLED.setTextSize(2);
+     OLED.setTextColor(WHITE);
+     OLED.setCursor(0,0);
+	  
     if(storeSSID.equals(host_s+gameID))
     {
       mySSID = infected_s + gameID;
+      OLED.println("INFECTED");
     }
     else
     {
       mySSID = healthy_s + gameID;
+      OLED.println("HEALTHY");
     }
+	  
+    OLED.display(); //output 'display buffer' to screen  
+    OLED.startscrollleft(0x00, 0x0F); //make display scroll 
   }
   
   Serial.println();
@@ -263,6 +288,18 @@ void setup() {
 			  WiFi.softAP(mySSID);
 			  Serial.println("" + mySSID + " ap started...");
 			  Serial.println();
+			  
+			  OLED.clearDisplay();
+
+  			  //Add stuff into the 'display buffer'
+  			  OLED.setTextWrap(false);
+  			  OLED.setTextSize(2);
+  			  OLED.setTextColor(WHITE);
+  			  OLED.setCursor(0,0);
+  			  OLED.println("INFECTED");
+ 
+  			  OLED.display(); //output 'display buffer' to screen  
+  			  OLED.startscrollleft(0x00, 0x0F); //make display scroll
 		  }
 		  else if(rssi<60 && rssi>0)
 		  {
@@ -285,23 +322,24 @@ void setup() {
   } while((end_time-start_time)<60000);
   Serial.println("The game is over!");
   
-  if(!mySSID.indexOf(infected_s+gameID))
-  {
-    Serial.println("You lost.");
-  }
-  else
-  {
-    Serial.println("You won!");
-  }
-  
   OLED.clearDisplay();
-
+	
   //Add stuff into the 'display buffer'
   OLED.setTextWrap(false);
   OLED.setTextSize(2);
   OLED.setTextColor(WHITE);
   OLED.setCursor(0,0);
-  OLED.println("GAME OVER");
+	
+  if(!mySSID.indexOf(infected_s+gameID))
+  {
+    Serial.println("You lost.");
+    OLED.println("GAME OVER");
+  }
+  else
+  {
+    Serial.println("You won!");
+    OLED.println("WINNER");
+  }
  
   OLED.display(); //output 'display buffer' to screen  
   OLED.startscrollleft(0x00, 0x0F); //make display scroll
