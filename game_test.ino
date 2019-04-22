@@ -259,11 +259,14 @@ void setup() {
 		  }
 		  else if(rssi<60 && rssi>0)
 		  {
+			  digitalWrite(D6, LOW);
 			  digitalWrite(D7, HIGH);
 			  digitalWrite(D8, HIGH);
 		  }
 		  else if(rssi>60)
 		  {
+			  digitalWrite(D6, LOW);
+			  digitalWrite(D7, LOW);
 			  digitalWrite(D8, HIGH);
 		  }
 		  else
@@ -314,14 +317,21 @@ void setup() {
  
   			  OLED.display(); //output 'display buffer' to screen  
   			  OLED.startscrollleft(0x00, 0x0F); //make display scroll
+			  
+			  digitalWrite(D6, LOW);
+			  digitalWrite(D7, LOW);
+			  digitalWrite(D8, LOW);
 		  }
 		  else if(rssi<60 && rssi>0)
 		  {
+			  digitalWrite(D6, LOW);
 			  digitalWrite(D7, HIGH);
 			  digitalWrite(D8, HIGH);
 		  }
 		  else if(rssi>60)
 		  {
+			  digitalWrite(D6, LOW);
+			  digitalWrite(D7, LOW);
 			  digitalWrite(D8, HIGH);
 		  }
 		  else
@@ -332,7 +342,7 @@ void setup() {
 		  }
 	  }
       end_time = millis();
-  } while((end_time-start_time)<120000);
+  } while((end_time-start_time)<180000);
   Serial.println("The game is over!");
   
   OLED.clearDisplay();
