@@ -138,7 +138,7 @@ void setup() {
   OLED.setTextSize(2);
   OLED.setTextColor(WHITE);
   OLED.setCursor(0,0);
-  OLED.println("STARTING GAME");
+  OLED.println("STARTING");
  
   OLED.display(); //output 'display buffer' to screen  
   OLED.startscrollleft(0x00, 0x0F); //make display scroll
