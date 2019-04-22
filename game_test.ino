@@ -326,7 +326,7 @@ void setup() {
 		  }
 	  }
       end_time = millis();
-  } while((end_time-start_time)<60000);
+  } while((end_time-start_time)<180000);
   Serial.println("The game is over!");
   
   OLED.clearDisplay();
