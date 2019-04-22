@@ -243,6 +243,7 @@ void setup() {
 		  if(rssi==0)
 		  {
 			  rssi = rssi_temp;
+			  rssi_temp = 0;
 		  }
 		  Serial.print("Signal strength: ");
 		  Serial.println(rssi);
@@ -277,6 +278,7 @@ void setup() {
 		  if(rssi==0)
 		  {
 			  rssi = rssi_temp;
+			  rssi_temp = 0;
 		  }
 		  Serial.print("Signal strength: ");
 		  Serial.println(rssi);
