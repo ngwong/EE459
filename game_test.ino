@@ -238,7 +238,10 @@ void setup() {
   {
 	  if(!mySSID.indexOf(infected_s+gameID))
 	  {
-		  rssi_temp = rssi;
+		  if(rssi!=0)
+		  {
+		  	rssi_temp = rssi;
+		  }
 		  rssi = -1*getRSSI(healthy_s+gameID);
 		  if(rssi==0)
 		  {
@@ -273,7 +276,10 @@ void setup() {
 	  }
 	  else if(!mySSID.indexOf(healthy_s+gameID))
 	  {
-		  rssi_temp = rssi;
+		  if(rssi!=0)
+		  {
+		  	rssi_temp = rssi;
+		  }
 		  rssi = -1*getRSSI(infected_s+gameID);
 		  if(rssi==0)
 		  {
