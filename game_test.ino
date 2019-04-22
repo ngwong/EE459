@@ -1,5 +1,10 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define OLED_RESET 0  // GPIO0
+Adafruit_SSD1306 OLED(OLED_RESET);
 
 String begin_s = "ESPTAG_BEGIN_";
 String host_s = "ESPTAG_HOST_";
@@ -61,6 +66,19 @@ void setup() {
   digitalWrite(D7, LOW);
   digitalWrite(D8, LOW);
   
+  OLED.begin();
+  OLED.clearDisplay();
+
+  //Add stuff into the 'display buffer'
+  OLED.setTextWrap(false);
+  OLED.setTextSize(2);
+  OLED.setTextColor(WHITE);
+  OLED.setCursor(0,0);
+  OLED.println(" BOOTING");
+ 
+  OLED.display(); //output 'display buffer' to screen  
+  OLED.startscrollleft(0x00, 0x0F); //make display scroll
+	
   for(int i=0; i<5; i++)
   {
   gameID += String(random(0,9));
