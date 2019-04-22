@@ -55,6 +55,7 @@ void setup() {
   int count = 1;
   String tempSSID = "";
   int32_t rssi = 0;
+  int32_t rssi_temp = 0;
   
   pinMode(D5, OUTPUT);   
   pinMode(D6, OUTPUT);
@@ -237,7 +238,12 @@ void setup() {
   {
 	  if(!mySSID.indexOf(infected_s+gameID))
 	  {
+		  rssi_temp = rssi;
 		  rssi = -1*getRSSI(healthy_s+gameID);
+		  if(rssi==0)
+		  {
+			  rssi = rssi_temp;
+		  }
 		  Serial.print("Signal strength: ");
 		  Serial.println(rssi);
 		  digitalWrite(D5, HIGH);
@@ -266,7 +272,12 @@ void setup() {
 	  }
 	  else if(!mySSID.indexOf(healthy_s+gameID))
 	  {
+		  rssi_temp = rssi;
 		  rssi = -1*getRSSI(infected_s+gameID);
+		  if(rssi==0)
+		  {
+			  rssi = rssi_temp;
+		  }
 		  Serial.print("Signal strength: ");
 		  Serial.println(rssi);
 		  digitalWrite(D5, LOW);
