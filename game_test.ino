@@ -244,28 +244,24 @@ void setup() {
 		  if(rssi<40 && rssi>0)
 		  {
 			  digitalWrite(D6, HIGH);
-			  delay(100);
-			  digitalWrite(D5, LOW);
-			  digitalWrite(D6, LOW);
+			  digitalWrite(D7, HIGH);
+			  digitalWrite(D8, HIGH);
 		  }
 		  else if(rssi<60 && rssi>0)
 		  {
 			  digitalWrite(D7, HIGH);
-			  delay(100);
-			  digitalWrite(D5, LOW);
-			  digitalWrite(D7, LOW);
+			  digitalWrite(D8, HIGH);
 		  }
 		  else if(rssi>60)
 		  {
 			  digitalWrite(D8, HIGH);
-			  delay(100);
-			  digitalWrite(D5, LOW);
-			  digitalWrite(D8, LOW);
 		  }
 		  else
 		  {
-			  delay(100);
 			  digitalWrite(D5, LOW);
+			  digitalWrite(D6, LOW);
+			  digitalWrite(D7, LOW);
+			  digitalWrite(D8, LOW);
 		  }
 	  }
 	  else if(!mySSID.indexOf(healthy_s+gameID))
@@ -273,13 +269,13 @@ void setup() {
 		  rssi = -1*getRSSI(infected_s+gameID);
 		  Serial.print("Signal strength: ");
 		  Serial.println(rssi);
+		  digitalWrite(D5, LOW);
 		  if(rssi<40 && rssi>0)
 		  {
-			  digitalWrite(D6, HIGH);
 			  digitalWrite(D5, HIGH);
-			  delay(100);
-			  digitalWrite(D6, LOW);
-			  digitalWrite(D5, LOW);
+			  digitalWrite(D6, HIGH);
+			  digitalWrite(D7, HIGH);
+			  digitalWrite(D8, HIGH);
 			  
 			  mySSID = infected_s + gameID;
 			  Serial.println("You have become infected.");
@@ -304,18 +300,17 @@ void setup() {
 		  else if(rssi<60 && rssi>0)
 		  {
 			  digitalWrite(D7, HIGH);
-			  delay(100);
-			  digitalWrite(D7, LOW);
+			  digitalWrite(D8, HIGH);
 		  }
 		  else if(rssi>60)
 		  {
 			  digitalWrite(D8, HIGH);
-			  delay(100);
-			  digitalWrite(D8, LOW);
 		  }
 		  else
 		  {
-			  delay(100);
+			  digitalWrite(D6, LOW);
+			  digitalWrite(D7, LOW);
+			  digitalWrite(D8, LOW);
 		  }
 	  }
       end_time = millis();
