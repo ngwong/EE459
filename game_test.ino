@@ -272,7 +272,6 @@ void setup() {
 		  digitalWrite(D5, LOW);
 		  if(rssi<40 && rssi>0)
 		  {
-			  digitalWrite(D5, HIGH);
 			  digitalWrite(D6, HIGH);
 			  digitalWrite(D7, HIGH);
 			  digitalWrite(D8, HIGH);
